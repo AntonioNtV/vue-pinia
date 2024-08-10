@@ -1,6 +1,7 @@
-import { defineStore } from "pinia";
+import { defineStore, acceptHMRUpdate } from "pinia";
 import { groupBy, sumBy, filter } from "lodash";
 import { useAuthUserStore } from "./AuthUserStore";
+
 export const useCartStore = defineStore('CartStore', {
     state: () => {
         return {
@@ -9,7 +10,7 @@ export const useCartStore = defineStore('CartStore', {
     },
 
     actions: {
-        addItems(count, item) {
+        addItems(count, item) {            
             count = parseInt(count)
             for (let index = 0; index < count; index++) {
                 this.items.push({ ...item })
@@ -46,5 +47,9 @@ export const useCartStore = defineStore('CartStore', {
         groupCount: (state) => (name) => state.grouped[name].length,
     }
 
-    // getters
 })
+
+
+if (import.meta.hot) {
+    import.meta.hot.accept(acceptHMRUpdate(useCartStore, import.meta.hot))
+}
