@@ -1,15 +1,15 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { groupBy, sumBy, filter } from "lodash";
 import { useAuthUserStore } from "./AuthUserStore";
+import { useLocalStorage } from '@vueuse/core'
 
 export const useCartStore = defineStore('CartStore', {
     historyEnabled: true,
     state: () => {
         return {
-            items: []
+            items: useLocalStorage("CartStore:items" ,[])
         }
     },
-
     actions: {
         addItems(count, item) {            
             count = parseInt(count)
